@@ -1,0 +1,85 @@
+.nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 2.4vw, 24px);
+  font-size: 13px;
+}
+.nav a {
+  color: var(--text-muted);
+}
+.nav a:hover {
+  color: var(--text);
+}
+.cvButton {
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 3px 9px;
+  color: var(--accent) !important;
+}
+.cvButton:hover {
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.accent {
+  color: var(--accent, #f4b84d);
+}
+
+/* phone menu button */
+.menuButton {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid var(--border, #2a2a24);
+  border-radius: 5px;
+  padding: 4px 11px;
+  color: #cfccc4;
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 68;
+  background: rgba(7, 7, 6, 0.45);
+}
+.dropdown {
+  position: fixed;
+  top: 46px;
+  left: 0;
+  right: 0;
+  z-index: 69;
+  background: rgba(13, 13, 12, 0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-subtle, #1c1c18);
+  padding: 6px 0;
+}
+.dropLink {
+  display: flex;
+  align-items: baseline;
+  gap: 11px;
+  padding: 14px clamp(16px, 6vw, 26px);
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 15px;
+  color: #cfccc4;
+  border-bottom: 1px solid #161613;
+}
+.dropLink:last-child {
+  border-bottom: none;
+}
+.dropLink:hover {
+  background: color-mix(in srgb, var(--accent, #f4b84d) 8%, transparent);
+  color: var(--accent, #f4b84d);
+}
+
+/* ── switch at phone width ── */
+@media (max-width: 700px) {
+  .nav {
+    display: none;
+  }
+  .menuButton {
+    display: flex;
+  }
+}

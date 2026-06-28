@@ -1,0 +1,79 @@
+.promo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 22px;
+  border: 1px solid var(--border, #2a2a24);
+  border-radius: 10px;
+  background: var(--card-bg-alt, #141412);
+  margin: 3rem 0;
+}
+
+.text {
+  flex: 2;
+  min-width: 0;
+  margin: 0;
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-muted, #a39e94);
+}
+
+.accent {
+  color: var(--accent, #f4b84d);
+}
+
+.buttonWrap {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-plex-mono), monospace;
+  font-size: 13.5px;
+  color: var(--text-bright, #e7e5df);
+  background: transparent;
+  border: 1px solid var(--border, #2a2a24);
+  border-radius: 7px;
+  padding: 9px 15px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    border-color 0.16s,
+    color 0.16s,
+    transform 0.16s;
+}
+
+.button:hover {
+  border-color: color-mix(in srgb, var(--accent, #f4b84d) 45%, transparent);
+  transform: translateY(-1px);
+}
+
+.button:active {
+  transform: translateY(0);
+}
+
+/* small screens: stack text and button, centered */
+@media (max-width: 600px) {
+  .promo {
+    flex-direction: column;
+    text-align: center;
+  }
+  .text,
+  .buttonWrap {
+    flex: none;
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button,
+  .button:hover {
+    transform: none;
+  }
+}
