@@ -1,13 +1,19 @@
 import "server-only";
 import OpenAI from "openai";
 
-const client = new OpenAI();
+let client: OpenAI | null = null;
+function getClient(): OpenAI {
+  if (!client) {
+    client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  }
+  return client;
+}
 
 export type Message = { role: "user" | "assistant"; content: string };
 
 export async function getLlmStream(messages: Message[], instructions?: string) {
   try {
-    const stream = await client.responses.create({
+    const stream = await getClient().responses.create({
       model: "gpt-5.4-nano",
       instructions,
       input: messages,

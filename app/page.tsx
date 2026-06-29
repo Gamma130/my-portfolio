@@ -13,6 +13,8 @@ import Projects from "./components/Projects/Projects";
 import Skills from "./components/Skills/Skills";
 import Background from "./components/TimelineCollumn";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const profile = getProfileBySlug("fullstack-ai");
   const projects = getProjectsForProfile(profile.id);

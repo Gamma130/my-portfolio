@@ -17,10 +17,9 @@ export interface ProfileData {
   phone: string | null;
 }
 
-// fetch the main profile info from the db
 export function getProfileBySlug(slug: string): ProfileData {
   const db = getDb();
-  return db
+  const profile = db
     .prepare(
       `
     SELECT
@@ -41,7 +40,12 @@ export function getProfileBySlug(slug: string): ProfileData {
     WHERE profile.slug = ?
   `,
     )
-    .get(slug);
+    .get(slug) as ProfileData | undefined;
+
+  if (!profile) {
+    throw new Error(`No profile found for slug: ${slug}`);
+  }
+  return profile;
 }
 
 export interface ProjectData {
@@ -103,7 +107,6 @@ export function getSkillGroups(): SkillGroup[] {
     )
     .all() as { name: string; type: string }[];
 
-  // group by type, preserving order
   const groups: SkillGroup[] = [];
   for (const row of rows) {
     let g = groups.find((x) => x.group === row.type);

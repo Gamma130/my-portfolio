@@ -1,5 +1,4 @@
 import "server-only";
-import { AsyncDatabase } from "promised-sqlite3";
 import Database from "better-sqlite3";
 import path from "node:path";
 
