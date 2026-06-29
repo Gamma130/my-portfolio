@@ -32,7 +32,9 @@ export function useAskBot() {
 
       if (!res.ok || !res.body) {
         const data = await res.json().catch(() => ({}));
-        setError(data.error ?? "Something went wrong.");
+        const msg = data.message ?? data.error ?? "Something went wrong.";
+
+        setError(msg);
         setLoading(false);
         return;
       }

@@ -1,7 +1,29 @@
+import { checkRateLimit } from "@/lib/rateLimits";
 import { getBotStream } from "@/ai/chatBot";
 import type { Message } from "@/services/openAi";
 
 export async function POST(request: Request) {
+  const rLimit = checkRateLimit();
+
+  if (!rLimit.allowed) {
+    return new Response(
+      JSON.stringify({
+        error: "rate_limited",
+        message:
+          "The assistant is taking a short break. It's had a lot of questions this hour. Please try again shortly.",
+      }),
+      {
+        status: 429,
+        headers: {
+          "Content-Type": "application/json",
+          "X-RateLimit-Limit": String(rLimit.limit),
+          "X-RateLimit-Remaining": String(rLimit.remaining),
+          "Retry-After": String(rLimit.resetInSeconds),
+        },
+      },
+    );
+  }
+
   let messages: Message[];
 
   try {
