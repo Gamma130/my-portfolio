@@ -57,7 +57,7 @@ export default function AskPanel() {
         <div className={styles.conversation} ref={scrollRef}>
           <div className={styles.intro}>
             // a terminal assistant trained on Marvin&apos;s work. ask about
-            projects, background, or availability.
+            projects, skills or background.
           </div>
 
           {history.map((m, i) =>
