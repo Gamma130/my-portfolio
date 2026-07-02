@@ -48,17 +48,17 @@ INSERT INTO project (id, slug, person_id, title, summary, description, visibilit
   (1, 'kether-internal-ai-app', 1, 'Kether OS Internal AI Application',
    'Internal product at Kether OS.',
    'Built a sliding-panel UX where the AI acts alongside the user on the page (agents, workflows, tickets). Designed the security architecture with identity & access management (Keycloak), an Apache gateway, and OAuth2/JWT for the micro-backends.',
-   'described_only', 1, NULL, NULL, NULL),
+   'public', 1, NULL, NULL, NULL),
 
   (2, 'ai-agent-pipeline-leadgen', 1, 'AI Agent Pipeline for Lead Generation',
    'Agent pipeline turning unstructured web data into structured output.',
    'Yellow-Pages scraping, web-search-augmented AI enrichment (context engineering, schema-validated outputs), deduplication, and export to a sheet. Built with the OpenAI Agents SDK.',
-   'described_only', 1, NULL, NULL, NULL),
+   'public', 1, NULL, NULL, NULL),
 
   (3, 'adplorer-ai-ad-generation', 1, 'Adplorer AI Ad-Generation Module',
    'Production project for a DACH ad-tech agency.',
    'LLM-based ad-generation system for Meta and Google Ads, live in production. As project manager and main client contact, owned it from requirements to delivery.',
-   'described_only', 1, NULL, NULL, NULL),
+   'public', 1, NULL, NULL, NULL),
 
   (4, 'rugby-bundesliga', 1, 'Rugby Bundesliga',
    'First official website of the Rugby Bundesliga.',
@@ -215,5 +215,28 @@ INSERT INTO profile_project (profile_id, project_id, sort_order) VALUES
 -- ---------- PROFILE <-> SKILL (which skills show on this profile, ordered) ----------
 INSERT INTO profile_skill (profile_id, skill_id, sort_order)
   SELECT 1, id, sort_order FROM skill;
+
+-- ========== PROFILE 2: consultant (second mode — tests the multi-profile mechanism) ==========
+-- Consulting framing: client-facing, scope-and-build, communication.
+-- DRAFT wording (short_summary / bio_text) — iterate later; quote reuses the approved line.
+INSERT INTO profile (id, person_id, slug, jobrole, short_summary, quote, bio_text, cv_url) VALUES
+  (2, 1, 'consultant', 'Software Consultant · Full-Stack Engineering',
+   'Full-stack engineer who works close to the client — clarifying requirements, scoping the right solution, and building and delivering it into production.',
+   'What I enjoy most is getting to the bottom of a technical problem and then making it clear to the people who need to understand it.',
+   'Full-stack engineer with a consulting mindset: I clarify requirements with clients, scope the right solution, and build and ship it into production. As co-founder of Kether OS I delivered B2B software and AI projects end to end, from the first client conversation to release, and I like translating complex technical topics so everyone on the project stays aligned.',
+   NULL);
+
+-- curated project order for the consultant profile (client-facing / delivery first)
+INSERT INTO profile_project (profile_id, project_id, sort_order) VALUES
+  (2, 3, 1),   -- Adplorer (PM & client contact, requirements -> delivery)
+  (2, 1, 2),   -- Kether Internal AI App (architecture + delivery)
+  (2, 4, 3),   -- Rugby Bundesliga (stakeholder coordination, end to end)
+  (2, 2, 4),   -- AI Agent Pipeline
+  (2, 5, 5);   -- Portfolio Page
+
+-- curated skills for the consultant profile: professional stack only
+-- (drops C, LaTeX, Neovim, VS Code -> demonstrates that the profile really filters skills)
+INSERT INTO profile_skill (profile_id, skill_id, sort_order)
+  SELECT 2, id, sort_order FROM skill WHERE id NOT IN (3, 5, 22, 23);
 
 COMMIT;

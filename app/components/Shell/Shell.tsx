@@ -1,8 +1,9 @@
-import { ProfileData } from "@/lib/db/queries";
+import { ProfileSummary, ProfileData } from "@/lib/db/queries";
 import Nav from "./components/Nav/Nav";
 import AskButtonNav from "./components/AskButtonNav/AskButtonNav";
 import AskButtonFooter from "./components/AskButtonFooter/AskButtonFooter";
 import SplitLayout from "./components/SplitLayout/SplitLayout";
+import BranchSwitcher from "../BranchSwitcher/BranchSwitcher";
 import ActiveSection from "./components/ActiveSection/ActiveSection";
 import ScrollPercent from "./components/ScrollStatus/ScrollStatus";
 import styles from "./Shell.module.css";
@@ -10,9 +11,11 @@ import styles from "./Shell.module.css";
 export default function Shell({
   children,
   profile,
+  profiles,
 }: {
   children: React.ReactNode;
   profile: ProfileData;
+  profiles: ProfileSummary[];
 }) {
   return (
     <div className={styles.root}>
@@ -34,7 +37,7 @@ export default function Shell({
       </div>
       <footer className={styles.statusbar}>
         <span className={styles.statusMode}>NORMAL</span>
-        <span className={styles.statusBranch}>{profile.slug} ✓</span>
+        <BranchSwitcher current={profile.slug} profiles={profiles} />
         <span className={styles.statusFile}>
           <ActiveSection root="[data-scroll-container]" />
         </span>

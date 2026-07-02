@@ -1,6 +1,24 @@
 import "server-only";
 import { getDb } from "./client";
 
+export interface ProfileSummary {
+  id: number;
+  slug: string;
+  jobrole: string | null;
+  short_summary: string | null;
+}
+
+export function getAllProfiles(): ProfileSummary[] {
+  const db = getDb();
+  return db
+    .prepare(
+      `SELECT id, slug, jobrole, short_summary 
+       FROM profile
+       `,
+    )
+    .all() as ProfileSummary[];
+}
+
 // profile Data type
 export interface ProfileData {
   id: number;

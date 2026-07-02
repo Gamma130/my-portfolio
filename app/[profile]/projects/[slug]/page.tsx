@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Markdown from "react-markdown";
-import QuitOnKey from "./QuitOnKey";
 import { getProjectBySlug } from "@/lib/db/queries";
+import QuitOnKey from "./QuitOnKey";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
@@ -10,22 +10,23 @@ export const dynamic = "force-dynamic";
 export default async function ProjectPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ profile: string; slug: string }>;
 }) {
-  const { slug } = await params;
-  const project = getProjectBySlug(slug);
-  console.log(project);
+  const { profile, slug } = await params;
+  const project = getProjectBySlug(slug); // global — profile not used for lookup
 
-  if (!project) notFound();
+  if (!project || project.visibility !== "public") notFound();
+
+  const backHref = `/${profile}#projects`;
 
   return (
     <main className={styles.page}>
-      <QuitOnKey href="/#projects" />
+      <QuitOnKey href={backHref} />
       <div className={styles.header}>
         <span className={styles.prompt}>$</span>
-        <span className={styles.cmd}>less ~/projects/{project.slug}.md</span>
+        <span className={styles.cmd}>less projects/{project.slug}.md</span>
         <span className={styles.spacer} />
-        <Link href="/#projects" className={styles.quit}>
+        <Link href={backHref} className={styles.quit}>
           [q] quit
         </Link>
       </div>
@@ -74,7 +75,7 @@ export default async function ProjectPage({
           )}
 
           <div className={styles.footer}>
-            <Link href="/#projects" className={styles.footerLink}>
+            <Link href={backHref} className={styles.footerLink}>
               ← back to projects
             </Link>
           </div>

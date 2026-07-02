@@ -7,7 +7,13 @@ import styles from "./Projects.module.css";
 
 const PAGE = 3;
 
-function ProjectList({ projects }: { projects: ProjectData[] }) {
+function ProjectList({
+  projects,
+  profileSlug,
+}: {
+  projects: ProjectData[];
+  profileSlug: string;
+}) {
   const [shown, setShown] = useState(PAGE);
   const visible = projects.slice(0, shown);
   const remaining = projects.length - shown;
@@ -18,7 +24,7 @@ function ProjectList({ projects }: { projects: ProjectData[] }) {
         {visible.map((p) => (
           <article key={p.id} className={styles.card}>
             <Link
-              href={`/projects/${p.slug}`}
+              href={`/${profileSlug}/projects/${p.slug}`}
               className={styles.cardLink}
               aria-label={p.title}
             />
@@ -71,13 +77,19 @@ function ProjectList({ projects }: { projects: ProjectData[] }) {
   );
 }
 
-export default function Projects({ projects }: { projects: ProjectData[] }) {
+export default function Projects({
+  projects,
+  profileSlug,
+}: {
+  projects: ProjectData[];
+  profileSlug: string;
+}) {
   return (
     <section id="projects" className={styles.projects}>
       <div className={styles.promptLine}>
         <span className={styles.user}>~/projects</span>
       </div>
-      <ProjectList projects={projects} />
+      <ProjectList projects={projects} profileSlug={profileSlug} />
     </section>
   );
 }
