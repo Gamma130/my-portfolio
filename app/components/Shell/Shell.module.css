@@ -1,5 +1,7 @@
 .root {
-  min-height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
   position: relative;
 }
 
@@ -29,10 +31,7 @@
 
 /* top bar */
 .topbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  flex-shrink: 0;
   height: 46px;
   z-index: 70;
   display: flex;
@@ -97,19 +96,14 @@
 }
 
 .main {
-  position: absolute;
-  top: 46px;
-  bottom: 26px;
-  left: 0;
-  right: 0;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
 
 /* bottom bar */
 .statusbar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  flex-shrink: 0;
   height: 26px;
   z-index: 70;
   display: flex;

@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Markdown from "react-markdown";
+import QuitOnKey from "./QuitOnKey";
 import { getProjectBySlug } from "@/lib/db/queries";
 import styles from "./page.module.css";
 
@@ -19,9 +20,10 @@ export default async function ProjectPage({
 
   return (
     <main className={styles.page}>
+      <QuitOnKey href="/#projects" />
       <div className={styles.header}>
         <span className={styles.prompt}>$</span>
-        <span className={styles.cmd}>cat projects/{project.slug}.md</span>
+        <span className={styles.cmd}>less ~/projects/{project.slug}.md</span>
         <span className={styles.spacer} />
         <Link href="/#projects" className={styles.quit}>
           [q] quit
