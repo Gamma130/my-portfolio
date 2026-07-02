@@ -18,12 +18,12 @@ export default function AskPanel() {
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Focus the input whenever the panel opens.
+  // focus panel
   useEffect(() => {
     if (open) inputRef.current?.focus();
   }, [open]);
 
-  // Escape closes the panel.
+  // close panel
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") closeAsk();
@@ -32,7 +32,7 @@ export default function AskPanel() {
     return () => window.removeEventListener("keydown", onKey);
   }, [closeAsk]);
 
-  // Auto-scroll to the bottom as the conversation grows / streams.
+  // Auto-scroll
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight });
   }, [history, streaming]);
@@ -72,7 +72,7 @@ export default function AskPanel() {
             ),
           )}
 
-          {/* the answer currently streaming in */}
+          {/* stream */}
           {streaming && <div className={styles.botMsg}>{streaming}</div>}
 
           {loading && !streaming && (
@@ -85,7 +85,7 @@ export default function AskPanel() {
 
           {error && <div className={styles.error}>{error}</div>}
 
-          {/* suggestion chips — only before any conversation */}
+          {/* suggestions */}
           {history.length === 0 && !loading && (
             <>
               <div className={styles.tryLabel}>try:</div>

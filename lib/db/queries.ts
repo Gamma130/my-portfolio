@@ -54,6 +54,7 @@ export interface ProjectData {
   title: string;
   summary: string | null;
   description: string | null;
+  body_md: string | null;
   visibility: string;
   is_highlighted: number;
   repo_url: string | null;
@@ -90,6 +91,31 @@ export function getProjectsForProfile(profileId: number): ProjectData[] {
   })) as ProjectData[];
 }
 
+export function getProjectBySlug(slug: string): ProjectData | null {
+  const db = getDb();
+  const row = db
+    .prepare(
+      `
+    SELECT
+      project.id, project.slug, project.title, project.summary,
+      project.description, project.body_md, project.visibility,
+      project.is_highlighted, project.repo_url, project.demo_url, project.img_url,
+      group_concat(skill.name) AS skill_names
+    FROM project
+    LEFT JOIN project_skill ON project_skill.project_id = project.id
+    LEFT JOIN skill ON skill.id = project_skill.skill_id
+    WHERE project.slug = ?
+    GROUP BY project.id
+  `,
+    )
+    .get(slug) as any;
+
+  if (!row) return null;
+  return {
+    ...row,
+    skills: row.skill_names ? row.skill_names.split(",") : [],
+  } as ProjectData;
+}
 export interface SkillGroup {
   group: string;
   items: string[];

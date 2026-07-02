@@ -70,6 +70,94 @@ INSERT INTO project (id, slug, person_id, title, summary, description, visibilit
    'A normalized SQLite schema drives multiple curated profiles over a single dataset, so each role (full-stack, security, computational) gets its own tailored view of the same projects and skills. Built as both my portfolio and a showcase project.',
    'public', 0, NULL, NULL, NULL);
 
+-- ---------- PROJECT BODIES (markdown) ----------
+-- Draft detail text per project (dev stage; iterate freely). Honest to each real role.
+
+UPDATE project SET body_md =
+'Internal product at Kether OS that puts an AI assistant **on the page, next to the user** — not in a separate chat window.
+
+## What it does
+A sliding side-panel lets the AI act alongside the user on whatever they are working on: running agents, driving workflows, and creating tickets in context.
+
+## My part
+- Built the sliding-panel frontend and the in-context interaction model.
+- Designed the **security architecture** for the multi-service backend:
+  - **Keycloak** for identity & access management (IAM)
+  - an **Apache gateway** as the single entry point
+  - **OAuth2 / JWT** validated per request across the micro-backends
+
+## Why it matters
+Auth is enforced **end to end** along the whole request path — gateway to identity layer to per-backend token validation — not just at a single edge.
+
+_Internal / client work — code not public._'
+WHERE slug = 'kether-internal-ai-app';
+
+UPDATE project SET body_md =
+'An agent pipeline that turns **unstructured web data into clean, structured records**.
+
+## Pipeline
+1. **Scrape** — collect raw listings from Yellow-Pages-style sources.
+2. **Enrich** — a web-search-augmented agent fills in and verifies details.
+3. **Structure** — outputs are **schema-validated**, so every record has a known shape.
+4. **Dedup & export** — records are de-duplicated and written to a sheet.
+
+## Engineering notes
+- Built with the **OpenAI Agents SDK**; the flow is composed of discrete agents (query planning, discovery, enrichment, outreach).
+- **Context engineering**: prompts carry explicit extraction priorities so the model returns fields, not prose.
+- FastAPI, Postgres, Redis and Docker underneath.
+
+_Internal prototype — code not public._'
+WHERE slug = 'ai-agent-pipeline-leadgen';
+
+UPDATE project SET body_md =
+'An **LLM-based ad-generation system** for Meta and Google Ads — **live in production** for a DACH ad-tech agency.
+
+## The project
+The module generates ad creatives for campaigns and is integrated into the agency''s existing workflow.
+
+## My role
+I ran this as **project manager and main client contact**, owning it from **requirements through to delivery**:
+- clarified requirements with the client and turned them into scope,
+- coordinated the technical delivery,
+- saw it through to a production launch.
+
+## Status
+Shipped and running in production.
+
+_Client project — code not public._'
+WHERE slug = 'adplorer-ai-ad-generation';
+
+UPDATE project SET body_md =
+'The **first official website of the Rugby Bundesliga**, built end to end in a **team of two**.
+
+## What we built
+- Public league site with fixtures, results and club information.
+- **Frontend in React**, **backend in Python**.
+- Third-party integrations for league data.
+- **Mobile-first**, responsive design.
+
+## My part
+Worked across the **full stack** — frontend and backend — plus coordination with the league as stakeholder.
+
+## Status
+Live and public.'
+WHERE slug = 'rugby-bundesliga';
+
+UPDATE project SET body_md =
+'This site — and a project in its own right. Built **solo, end to end: from data model to deployment**.
+
+## Idea
+One dataset, **multiple curated profiles**. A normalized SQLite schema lets each role (full-stack, security, computational) show its own tailored selection and ordering of the same projects and skills.
+
+## Stack & decisions
+- **Next.js with server-side rendering**, chosen deliberately so the page ships real **HTML** rather than only a JS bundle — which keeps it crawlable and readable in link previews.
+- **SQLite** with a normalized schema (person, profiles, projects, skills, and their many-to-many links).
+- Projects carry a `visibility` flag, so client and internal work can be **described without exposing code**.
+
+## Why I built it
+To prove to myself I could take a project **all the way alone** — design, build, deploy — and to have a living showcase I can keep iterating on.'
+WHERE slug = 'portfolio-page';
+
 -- ---------- SKILLS ----------
 -- type is one of: languages | frontend | backend | tools
 -- (schema has no 'infrastructure' type, so Docker/Nginx/CI-CD/Linux live under 'tools')

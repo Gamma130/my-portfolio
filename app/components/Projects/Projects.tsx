@@ -1,16 +1,28 @@
+"use client";
+
+import Link from "next/link";
+import { useState } from "react";
 import type { ProjectData } from "@/lib/db/queries";
 import styles from "./Projects.module.css";
 
-export default function Projects({ projects }: { projects: ProjectData[] }) {
-  return (
-    <section id="projects" className={styles.projects}>
-      <div className={styles.promptLine}>
-        <span className={styles.user}>~/projects</span>
-      </div>
+const PAGE = 3;
 
+function ProjectList({ projects }: { projects: ProjectData[] }) {
+  const [shown, setShown] = useState(PAGE);
+  const visible = projects.slice(0, shown);
+  const remaining = projects.length - shown;
+
+  return (
+    <>
       <div className={styles.list}>
-        {projects.map((p) => (
+        {visible.map((p) => (
           <article key={p.id} className={styles.card}>
+            <Link
+              href={`/projects/${p.slug}`}
+              className={styles.cardLink}
+              aria-label={p.title}
+            />
+
             <h3 className={styles.cardTitle}>{p.title}</h3>
             {p.summary && <div className={styles.cardTag}>{p.summary}</div>}
             {p.description && (
@@ -42,6 +54,30 @@ export default function Projects({ projects }: { projects: ProjectData[] }) {
           </article>
         ))}
       </div>
+
+      {remaining > 0 && (
+        <button
+          type="button"
+          onClick={() => setShown((s) => s + PAGE)}
+          className={styles.more}
+        >
+          <span className={styles.moreTag}>--More--</span>
+          <span className={styles.moreHint}>
+            {remaining} more · press to load
+          </span>
+        </button>
+      )}
+    </>
+  );
+}
+
+export default function Projects({ projects }: { projects: ProjectData[] }) {
+  return (
+    <section id="projects" className={styles.projects}>
+      <div className={styles.promptLine}>
+        <span className={styles.user}>~/projects</span>
+      </div>
+      <ProjectList projects={projects} />
     </section>
   );
 }

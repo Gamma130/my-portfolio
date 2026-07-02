@@ -49,6 +49,7 @@ CREATE TABLE project (
   title       TEXT NOT NULL,
   summary     TEXT,
   description TEXT,
+  body_md     TEXT,
   visibility  TEXT NOT NULL DEFAULT 'public' CHECK (visibility IN ('public', 'described_only')),
   is_highlighted INTEGER NOT NULL DEFAULT 0 CHECK (is_highlighted IN (0, 1)),
   repo_url       TEXT,

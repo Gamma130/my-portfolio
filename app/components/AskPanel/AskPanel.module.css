@@ -159,8 +159,7 @@
   align-items: center;
   gap: 9px;
   padding: 13px 14px;
-  border-top: 1px solid var(--border-subtle, #1c1c18);
-  background: #0e0e0d;
+  border-top: 2px solid var(--border-subtle, #1c1c18);
   flex-shrink: 0;
 }
 .input {
